@@ -7,9 +7,6 @@ from setuptools import setup, find_packages
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
-
 requirements = ['Click>=8.1.3', ]
 
 test_requirements = ['pytest>=6', ]
@@ -38,9 +35,10 @@ setup(
     },
     install_requires=requirements,
     license="MIT license",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
+    long_description_content_type='text/x-rst',
     include_package_data=True,
-    keywords='test_report_diff',
+    keywords='test report, diff, triage, compare reports',
     name='test_report_diff',
     packages=find_packages(include=['test_report_diff', 'test_report_diff.*']),
     test_suite='tests',

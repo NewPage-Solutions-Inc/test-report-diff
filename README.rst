@@ -8,7 +8,8 @@ A script to get the diff of 2 test reports. Helps with triaging/investigating la
 
 Usage
 -----
-.. code:: python
+.. code-block:: python
+
     pip install test_report_diff
     test_report_diff --help
 
