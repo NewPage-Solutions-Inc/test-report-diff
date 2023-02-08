@@ -47,6 +47,7 @@ class TestResultDiff:
         # Find old tests that have changed status in the latest run
         for status in TestStatus:
             self.tests_with_diff_status[status] = [test for test in new_tests_set if test.status == status
+                                                   and test.scenario_id in old_tests
                                                    and old_tests[test.scenario_id].status != status]
 
         # Get tests that have failed in both runs but have a different reason for failure in the latest run
