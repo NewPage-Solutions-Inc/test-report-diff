@@ -1,0 +1,4 @@
+Usage: main [OPTIONS] OLD_REPORT_PATH NEW_REPORT_PATH [REPORT_TYPE]
+
+Options:
+  --help  Show this message and exit.
