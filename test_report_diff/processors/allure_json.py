@@ -36,10 +36,7 @@ class AllureJsonProcessor:
 
         test_result.tags = []
 
-        try:
-            test_status = TestStatus(raw_data.get('status').upper())
-        except ValueError:
-            test_status = TestStatus.UNKNOWN
+        test_status = TestStatus.from_string(raw_data.get('status'))
 
         test_result.status = test_status
         failed_step = ''
