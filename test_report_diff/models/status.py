@@ -16,6 +16,9 @@ class TestStatus(Enum):
     SKIP = 'SKIPPED'
     ERROR = 'ERROR'
     UNKNOWN = 'UNKNOWN'
+    FAILED = 'FAILED'
+    BROKEN = 'BROKEN'
+    PASSED = 'PASSED'
 
     @staticmethod
     def from_string(status: str):
