@@ -19,7 +19,7 @@ def main(old_report_path: str, new_report_path: str, report_type: str) -> int:
 
     if processor_cls is None:
         click.echo(f"Unsupported report type '{report_type}'")
-        return 0
+        return 1
 
     orig_results: TestSuiteResult = processor_cls(old_report_path).get_as_test_suite_result()
     new_results: TestSuiteResult = processor_cls(new_report_path).get_as_test_suite_result()
