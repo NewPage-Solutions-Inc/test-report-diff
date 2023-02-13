@@ -16,6 +16,6 @@ def get_processor_class_by_report_type(report_type, processors: list) -> object:
         mod = importlib.import_module(
             f".processors.{processor}", package="test_report_diff"
         )
-        processor_class = getattr(mod, f'{report_type.title()}JsonProcessor', None)
+        processor_class = getattr(mod, f'{report_type}', None)
         if processor_class is not None:
             return processor_class

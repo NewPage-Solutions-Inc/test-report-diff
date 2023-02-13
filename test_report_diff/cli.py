@@ -10,7 +10,12 @@ from . import util
 @click.command()
 @click.argument('old_report_path', required=True, type=click.Path(exists=True, dir_okay=True))
 @click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=True))
-@click.argument('report_type', default='cucumber', type=str)
+@click.option(
+    '--report_type',
+    default='CucumberJsonProcessor',
+    type=str,
+    help='Supported report type: CucumberJsonProcessor, AllureJsonProcessor'
+)
 def main(old_report_path: str, new_report_path: str, report_type: str) -> int:
     processor_cls = util.get_processor_class_by_report_type(
         report_type,
