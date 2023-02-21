@@ -190,3 +190,4 @@ new Chart("new_result", {
 """
         j2_template = Template(template)
         return j2_template.render(self._get_data_to_render())
+
