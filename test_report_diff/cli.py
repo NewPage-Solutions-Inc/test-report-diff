@@ -14,7 +14,7 @@ from . import util
     '--report_type',
     default='CucumberJsonProcessor',
     type=str,
-    help='Supported report type: CucumberJsonProcessor, AllureJsonProcessor'
+    help='Supported report type: CucumberJsonProcessor, AllureJsonProcessor, PytestXmlProcessor'
 )
 def main(old_report_path: str, new_report_path: str, report_type: str) -> int:
     processor_cls = util.get_processor_class_by_report_type(
