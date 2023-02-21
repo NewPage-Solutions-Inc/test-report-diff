@@ -16,6 +16,7 @@ class TestStatus(Enum):
     SKIP = 'SKIPPED'
     ERROR = 'ERROR'
     UNKNOWN = 'UNKNOWN'
+    BROKEN = 'BROKEN'
 
     @staticmethod
     def from_string(status: str):
@@ -31,5 +32,8 @@ class TestStatus(Enum):
             return TestStatus.SKIP
         elif tmp_status in _error_synonyms:
             return TestStatus.ERROR
-        else:
+        elif tmp_status in _unknown_synonyms:
             return TestStatus.UNKNOWN
+        else:
+            return TestStatus.BROKEN
+

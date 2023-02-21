@@ -1,19 +1,33 @@
 """Console script for test_report_diff."""
 import sys
 import click
-
 from .formatters.triage_formatter import TriageFormatter
 from .models.suite_result import TestSuiteResult
-from .processors.cuke_json import CucumberJsonProcessor
 from .models.diff import TestResultDiff
+from . import util
 
 
 @click.command()
-@click.argument('old_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
-@click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
-def main(old_report_path: str, new_report_path: str):
-    orig_results: TestSuiteResult = CucumberJsonProcessor(old_report_path).get_as_test_suite_result()
-    new_results: TestSuiteResult = CucumberJsonProcessor(new_report_path).get_as_test_suite_result()
+@click.argument('old_report_path', required=True, type=click.Path(exists=True, dir_okay=True))
+@click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=True))
+@click.option(
+    '--report_type',
+    default='CucumberJsonProcessor',
+    type=str,
+    help='Supported report type: CucumberJsonProcessor, AllureJsonProcessor'
+)
+def main(old_report_path: str, new_report_path: str, report_type: str) -> int:
+    processor_cls = util.get_processor_class_by_report_type(
+        report_type,
+        util.get_processors()
+    )
+
+    if processor_cls is None:
+        click.echo(f"Unsupported report type '{report_type}'")
+        return 1
+
+    orig_results: TestSuiteResult = processor_cls(old_report_path).get_as_test_suite_result()
+    new_results: TestSuiteResult = processor_cls(new_report_path).get_as_test_suite_result()
 
     diff: TestResultDiff = TestResultDiff(orig_results, new_results)
     diff.calculate_diff()
