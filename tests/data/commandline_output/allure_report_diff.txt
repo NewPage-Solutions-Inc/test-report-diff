@@ -1,0 +1,14 @@
+
+	Old results: 2
+		PASS: 1
+		FAIL: 1
+
+	New results: 2
+		PASS: 1
+		FAIL: 1
+
+	Diff:
+		Newly Added Scenarios: 1
+			'Run Test for browser's outputs'
+		Newly Removed Scenarios: 1
+			'Run Test for browser's outputs 1'

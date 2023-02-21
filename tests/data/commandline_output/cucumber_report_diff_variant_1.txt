@@ -1,0 +1,14 @@
+
+	Old results: 56
+		PASS: 45
+		FAIL: 11
+
+	New results: 57
+		PASS: 39
+		FAIL: 18
+
+	Diff:
+		Newly Added Scenarios: 2
+			'Verify Page is not showing blank even after page restore is applied', 'verify page description is mandatory when checkbox Mandate page description is checked'
+		Newly Removed Scenarios: 1
+			'verify page description is mandatory when checkbox Mandate page description is checked'

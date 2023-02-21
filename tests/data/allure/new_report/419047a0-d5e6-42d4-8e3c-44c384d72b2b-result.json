@@ -1,0 +1,132 @@
+{
+  "name": "Failed test only",
+  "status": "failed",
+  "statusDetails": {
+    "message": "AssertionError: message are different",
+    "trace": "request = <FixtureRequest for <Function test_failed_test_only>>\n_pytest_bdd_example = {}\n\n    @pytest.mark.usefixtures(*args)\n    def scenario_wrapper(request, _pytest_bdd_example):\n        scenario = templated_scenario.render(_pytest_bdd_example)\n>       _execute_scenario(feature, scenario, request)\n\n../venv/lib/python3.9/site-packages/pytest_bdd/scenario.py:198: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n../venv/lib/python3.9/site-packages/pytest_bdd/scenario.py:163: in _execute_scenario\n    _execute_step_function(request, scenario, step, step_func)\n../venv/lib/python3.9/site-packages/pytest_bdd/scenario.py:127: in _execute_step_function\n    return_value = step_func(**kwargs)\nstep_defs/shared_steps.py:74: in verify_message_new_user\n    check_message_content(driver, \"Welcome new user!\")\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ndriver = <selenium.webdriver.support.event_firing_webdriver.EventFiringWebDriver object at 0x12f471220>\ncontent = 'Welcome new user!'\n\n    def check_message_content(driver, content):\n        message = driver.find_element(*MESSAGE)\n>       assert message.text == content, \"message are different\"\nE       AssertionError: message are different\n\nstep_defs/shared_steps.py:115: AssertionError"
+  },
+  "steps": [
+    {
+      "name": "Given I open first page",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot Navigation to https://newpage-solutions-inc.github.io/pytest-enhanced-reports/test-site/index.html",
+          "source": "a5660c71-05bf-4bfe-81b0-4a4dbc5a43d6-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961528614,
+      "stop": 1675961530255
+    },
+    {
+      "name": "When User enters first name Existing",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot after keyboard input",
+          "source": "e9c1fbf6-19bb-49ad-acbf-e0394abc4e9d-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961530256,
+      "stop": 1675961530511
+    },
+    {
+      "name": "And User enters last name User",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot after keyboard input",
+          "source": "692d2565-23a0-45c4-8f16-86961acc0240-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961530512,
+      "stop": 1675961530851
+    },
+    {
+      "name": "And User enters email test@test.com",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot after keyboard input",
+          "source": "67778e7b-9c8d-4656-bde0-1f59968090a7-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961530852,
+      "stop": 1675961531113
+    },
+    {
+      "name": "And User enters phone 1234567890",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot after keyboard input",
+          "source": "51a0ec8a-1aa5-4510-bf09-dab5e8330477-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961531113,
+      "stop": 1675961531346
+    },
+    {
+      "name": "And User clicks on submit button",
+      "status": "passed",
+      "attachments": [
+        {
+          "name": "Screenshot after click",
+          "source": "21595659-1e5e-401a-8206-f3839f9aded2-attachment.png",
+          "type": "image/png"
+        }
+      ],
+      "start": 1675961531346,
+      "stop": 1675961531545
+    },
+    {
+      "name": "Then User can see welcome message for new user",
+      "status": "failed",
+      "statusDetails": {
+        "message": "message are different",
+        "trace": "AssertionError: message are different\n"
+      },
+      "start": 1675961531545,
+      "stop": 1675961531556
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Logs from browser console after action chain",
+      "source": "01fc82ec-aa84-4c4a-a3dc-3459d7d222af-attachment.txt",
+      "type": "text/plain"
+    }
+  ],
+  "start": 1675961528614,
+  "stop": 1675961531557,
+  "uuid": "b4c64228-b76d-5fba-b293-344d165f8665",
+  "historyId": "b4c64228b76d5fbab293344d165f8665",
+  "fullName": "features/test_site.feature:Failed test only",
+  "labels": [
+    {
+      "name": "host",
+      "value": "admins-MacBook-Pro.local"
+    },
+    {
+      "name": "thread",
+      "value": "88458-MainThread"
+    },
+    {
+      "name": "framework",
+      "value": "pytest-bdd"
+    },
+    {
+      "name": "language",
+      "value": "cpython3"
+    },
+    {
+      "name": "feature",
+      "value": "Test First Page"
+    }
+  ]
+}
