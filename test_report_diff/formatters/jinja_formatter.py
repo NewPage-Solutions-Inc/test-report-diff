@@ -12,6 +12,33 @@ class JinjiaFormatter(DefaultDiffFormatter):
     def __init__(self, diff: TestResultDiff):
         super().__init__(diff)
 
+    def _get_data_to_render(self):
+        return {
+            "old_result_test_count": self._diff.old_result.get_test_count(),
+            "old_result_content": [
+                (status.name, len(tests)) for status, tests in self._diff.old_tests_by_status.items() if len(tests) > 0
+            ],
+            "new_result_test_count": self._diff.new_result.get_test_count(),
+            "new_result_content": [
+                (status.name, len(tests)) for status, tests in self._diff.new_tests_by_status.items() if len(tests) > 0
+            ],
+            "newly_added_tests": (
+                len(self._diff.newly_added_tests),
+                [test.scenario_name for test in self._diff.newly_added_tests]
+            ),
+            "newly_removed_tests": (
+                len(self._diff.newly_removed_tests),
+                [test.scenario_name for test in self._diff.newly_removed_tests]
+            ),
+            "diff_status_items": [
+                (
+                    status.name,
+                    len(tests),
+                    [test.scenario_name for test in tests]
+                ) for status, tests in self._diff.tests_with_diff_status.items() if len(tests) > 0
+            ]
+        }
+
     def format(self) -> str:
         template = """
 Old results: {{old_result_test_count}}
@@ -42,31 +69,6 @@ Diff:
     {% endfor -%}
 {% endfor -%}
 """
-        data = {
-            "old_result_test_count": self._diff.old_result.get_test_count(),
-            "old_result_content": [
-                (status.name, len(tests)) for status, tests in self._diff.old_tests_by_status.items() if len(tests) > 0
-            ],
-            "new_result_test_count": self._diff.new_result.get_test_count(),
-            "new_result_content": [
-                (status.name, len(tests)) for status, tests in self._diff.new_tests_by_status.items() if len(tests) > 0
-            ],
-            "newly_added_tests": (
-                len(self._diff.newly_added_tests),
-                [test.scenario_name for test in self._diff.newly_added_tests]
-            ),
-            "newly_removed_tests": (
-                len(self._diff.newly_removed_tests),
-                [test.scenario_name for test in self._diff.newly_removed_tests]
-            ),
-            "diff_status_items": [
-                (
-                    status.name,
-                    len(tests),
-                    [test.scenario_name for test in tests]
-                ) for status, tests in self._diff.tests_with_diff_status.items() if len(tests) > 0
-            ]
-        }
 
         j2_template = Template(template)
-        return j2_template.render(data)
+        return j2_template.render(self._get_data_to_render())
