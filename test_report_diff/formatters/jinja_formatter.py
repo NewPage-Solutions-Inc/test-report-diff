@@ -12,63 +12,40 @@ class JinjiaFormatter(DefaultDiffFormatter):
     def __init__(self, diff: TestResultDiff):
         super().__init__(diff)
 
-    def _get_data_to_render(self):
-        return {
-            "old_result_test_count": self._diff.old_result.get_test_count(),
-            "old_result_content": [
-                (status.name, len(tests)) for status, tests in self._diff.old_tests_by_status.items() if len(tests) > 0
-            ],
-            "new_result_test_count": self._diff.new_result.get_test_count(),
-            "new_result_content": [
-                (status.name, len(tests)) for status, tests in self._diff.new_tests_by_status.items() if len(tests) > 0
-            ],
-            "newly_added_tests": (
-                len(self._diff.newly_added_tests),
-                [test.scenario_name for test in self._diff.newly_added_tests]
-            ),
-            "newly_removed_tests": (
-                len(self._diff.newly_removed_tests),
-                [test.scenario_name for test in self._diff.newly_removed_tests]
-            ),
-            "diff_status_items": [
-                (
-                    status.name,
-                    len(tests),
-                    [test.scenario_name for test in tests]
-                ) for status, tests in self._diff.tests_with_diff_status.items() if len(tests) > 0
-            ]
-        }
-
     def format(self) -> str:
         template = """
-Old results: {{old_result_test_count}}
-{% for result in old_result_content -%}
-{{ "\t" }}{{ result[0] }}: {{ result[1] }}
+Old results: {{ diff.old_result.get_test_count() }}
+{% for status, tests in diff.old_tests_by_status.items() -%}
+{% if tests|length > 0 -%}
+    {{ "\t" }}{{ status.name }}: {{ tests|length }}
+{% endif -%}
 {% endfor -%}
-
-New results: {{new_result_test_count}}
-{% for result in new_result_content -%}
-{{ "\t" }}{{ result[0] }}: {{ result[1] }}
+New results: {{ diff.new_result.get_test_count() }}
+{% for status, tests in diff.new_tests_by_status.items() -%}
+    {% if tests|length > 0 -%}
+        {{ "\t" }}{{ status.name }}: {{ tests|length }}
+{% endif -%}
 {% endfor -%}
-
 Diff:
-{{ "\t" }}Newly Added Scenarios: {{ newly_added_tests[0] }}
-{% for test in newly_added_tests[1] -%}
-{{ "\t\t" }}'{{ test }}'{{ " " }}
+{{ "\t" }}Newly Added Scenarios: {{ diff.newly_added_tests|length }}
+{% for test in diff.newly_added_tests -%}
+    {{ "\t\t" }}'{{ test.scenario_name }}'{{ " " }}
 {% endfor -%}
 
-{{ "\t" }}Newly Removed Scenarios: {{ newly_removed_tests[0] }}
-{% for test in newly_removed_tests[1] -%}
-{{ "\t\t" }}'{{ test }}'{{ " " }}
+{{ "\t" }}Newly Removed Scenarios: {{ diff.newly_removed_tests|length }}
+{% for test in diff.newly_removed_tests -%}
+    {{ "\t\t" }}'{{ test.scenario_name }}'{{ " " }}
 {% endfor -%}
 
-{% for status, number_of_tests, tests in diff_status_items -%}
-    {{ "\t" }}Newly {{ status }}ed Scenarios: {{ number_of_tests }}
-    {% for item in tests -%}
-        {{ "\t\t" }}'{{ item }}'
-    {% endfor -%}
+{% for status, tests in diff.tests_with_diff_status.items() -%}
+    {% if tests|length > 0 -%}
+        {{ "\t" }}Newly {{ status.name }}ed Scenarios: {{ tests|length }}
+        {%- for test in tests -%}
+            {{ "\n\t\t" }}'{{ test.scenario_name }}'
+        {% endfor -%}
+    {% endif -%}
 {% endfor -%}
 """
 
         j2_template = Template(template)
-        return j2_template.render(self._get_data_to_render())
+        return j2_template.render({"diff": self._diff})
