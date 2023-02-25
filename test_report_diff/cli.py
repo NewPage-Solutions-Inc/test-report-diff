@@ -14,9 +14,7 @@ from .models.diff import TestResultDiff
 @click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
 @click.option(
     '--html',
-    is_flag=True,
-    show_default=True,
-    default=False,
+    type=click.Path(exists=True, dir_okay=False),
     help='Render report as in html format. File fill be overwritten if exists'
 )
 @click.option(
@@ -24,7 +22,7 @@ from .models.diff import TestResultDiff
     type=click.Path(exists=True, dir_okay=False),
     help='Path to template to render with'
 )
-def main(old_report_path: str, new_report_path: str, html: bool, template: str):
+def main(old_report_path: str, new_report_path: str, template: str, html: str = None):
     orig_results: TestSuiteResult = CucumberJsonProcessor(old_report_path).get_as_test_suite_result()
     new_results: TestSuiteResult = CucumberJsonProcessor(new_report_path).get_as_test_suite_result()
 
@@ -46,10 +44,9 @@ def main(old_report_path: str, new_report_path: str, html: bool, template: str):
         click.echo(content)
 
     if html:
-        report_file_name = 'report_diff.html'
-        if os.path.exists(report_file_name):
-            click.echo(f'Warning: {report_file_name} will be overwritten!')
-        with open(report_file_name, 'w') as f:
+        if os.path.exists(html):
+            click.echo(f'Warning: {html} will be overwritten!')
+        with open(html, 'w') as f:
             f.write(JinjiaFormatter(diff).get_html_format())
         click.echo(f'Report diff is generated successfully.')
 
