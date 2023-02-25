@@ -76,6 +76,18 @@ Diff:
     <ul>
         {% for test in diff.newly_added_tests -%}
         <li>{{ test.scenario_name }}</li>
+        <details>
+                <ul>
+                    {% if test.duration_in_seconds is not none %} <li>Duration: {{ test.duration_in_seconds }}s</li> {% endif %}
+                    {% if test.error_message is not none %} <li>Error message: {{ test.error_message }}</li> {% endif %}
+                    {% if test.error_trace is not none %} <li>Error message: {{ test.error_trace }}</li> {% endif %}
+                    {% if test.failed_step is not none %} <li>Error Trace: {{ test.failed_step }}</li> {% endif %}
+                    {% if test.failed_step is not none %} <li>Failed step: {{ test.failed_step }}</li> {% endif %}
+                    {% if test.failed_step_line_num is not none %} <li>Failed line number: {{ test.failed_step_line_num }}</li> {% endif %}
+                    {% if test.last_successful_step is not none %} <li>Last successful step: {{ test.last_successful_step }}</li> {% endif %}
+                    {% if test.last_successful_step_line_num is not none %} <li>Last successful line number: {{ test.last_successful_step_line_num }}</li> {% endif %}
+                </ul>
+                </details>
         {% endfor -%}
     </ul>
 
@@ -83,6 +95,18 @@ Diff:
     <ul>
         {% for test in diff.newly_removed_tests -%}
         <li>{{ test.scenario_name }}</li>
+        <details>
+                <ul>
+                    {% if test.duration_in_seconds is not none %} <li>Duration: {{ test.duration_in_seconds }}s</li> {% endif %}
+                    {% if test.error_message is not none %} <li>Error message: {{ test.error_message }}</li> {% endif %}
+                    {% if test.error_trace is not none %} <li>Error message: {{ test.error_trace }}</li> {% endif %}
+                    {% if test.failed_step is not none %} <li>Error Trace: {{ test.failed_step }}</li> {% endif %}
+                    {% if test.failed_step is not none %} <li>Failed step: {{ test.failed_step }}</li> {% endif %}
+                    {% if test.failed_step_line_num is not none %} <li>Failed line number: {{ test.failed_step_line_num }}</li> {% endif %}
+                    {% if test.last_successful_step is not none %} <li>Last successful step: {{ test.last_successful_step }}</li> {% endif %}
+                    {% if test.last_successful_step_line_num is not none %} <li>Last successful line number: {{ test.last_successful_step_line_num }}</li> {% endif %}
+                </ul>
+                </details>
         {% endfor -%}
     </ul>
 {% for status, tests in diff.tests_with_diff_status.items() -%}
