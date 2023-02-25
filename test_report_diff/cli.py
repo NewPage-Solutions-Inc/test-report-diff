@@ -1,8 +1,9 @@
 """Console script for test_report_diff."""
 import sys
 import click
+import os
 
-from .formatters.triage_formatter import TriageFormatter
+from .formatters.jinja_formatter import JinjiaFormatter
 from .models.suite_result import TestSuiteResult
 from .processors.cuke_json import CucumberJsonProcessor
 from .models.diff import TestResultDiff
@@ -11,14 +12,25 @@ from .models.diff import TestResultDiff
 @click.command()
 @click.argument('old_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
 @click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
-def main(old_report_path: str, new_report_path: str):
+@click.option(
+    '--html',
+    help='Render report as in html format. File fill be overwritten if exists'
+)
+def main(old_report_path: str, new_report_path: str, html: str = None):
     orig_results: TestSuiteResult = CucumberJsonProcessor(old_report_path).get_as_test_suite_result()
     new_results: TestSuiteResult = CucumberJsonProcessor(new_report_path).get_as_test_suite_result()
 
     diff: TestResultDiff = TestResultDiff(orig_results, new_results)
     diff.calculate_diff()
 
-    click.echo(TriageFormatter(diff).format())
+    click.echo(JinjiaFormatter(diff).format())
+
+    if html:
+        if os.path.exists(html):
+            click.echo(f'Warning: {html} will be overwritten!')
+        with open(html, 'w') as f:
+            f.write(JinjiaFormatter(diff).get_html_format())
+        click.echo(f'Report diff is generated successfully.')
 
     return 0
 
