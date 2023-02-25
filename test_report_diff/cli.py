@@ -19,14 +19,31 @@ from .models.diff import TestResultDiff
     default=False,
     help='Render report as in html format. File fill be overwritten if exists'
 )
-def main(old_report_path: str, new_report_path: str, html: bool):
+@click.option(
+    '--template',
+    type=click.Path(exists=True, dir_okay=False),
+    help='Path to template to render with'
+)
+def main(old_report_path: str, new_report_path: str, html: bool, template: str):
     orig_results: TestSuiteResult = CucumberJsonProcessor(old_report_path).get_as_test_suite_result()
     new_results: TestSuiteResult = CucumberJsonProcessor(new_report_path).get_as_test_suite_result()
 
     diff: TestResultDiff = TestResultDiff(orig_results, new_results)
     diff.calculate_diff()
 
-    click.echo(JinjiaFormatter(diff).format())
+    content = JinjiaFormatter(diff).get_html_format()
+    try:
+        if template:
+            if not os.path.exists(template):
+                raise FileNotFoundError
+            with open(template, 'r') as f:
+                content = JinjiaFormatter(diff).format(f.read())
+    except FileNotFoundError:
+        click.echo(f'Template file not found {template}')
+    except:
+        click.echo(f'Template contains syntax error')
+    finally:
+        click.echo(content)
 
     if html:
         report_file_name = 'report_diff.html'

@@ -39,8 +39,9 @@ class JinjiaFormatter(DefaultDiffFormatter):
             ]
         }
 
-    def format(self) -> str:
-        template = """
+    def format(self, template: str = None) -> str:
+        if not template:
+            template = """
 Old results: {{old_result_test_count}}
 {% for result in old_result_content -%}
 {{ "\t" }}{{ result[0] }}: {{ result[1] }}
