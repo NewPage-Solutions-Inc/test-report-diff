@@ -14,7 +14,6 @@ from .models.diff import TestResultDiff
 @click.argument('new_report_path', required=True, type=click.Path(exists=True, dir_okay=False))
 @click.option(
     '--html',
-    type=click.Path(exists=True, dir_okay=False),
     help='Render report as in html format. File fill be overwritten if exists'
 )
 @click.option(
