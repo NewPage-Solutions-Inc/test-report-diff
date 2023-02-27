@@ -49,3 +49,130 @@ Diff:
 
         j2_template = Template(template)
         return j2_template.render({"diff": self._diff})
+
+    def get_html_format(self):
+        template = """
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test Report Diff</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body>
+    <table style="width: 100%">
+        <tr>
+            <td style="width: 50%">
+                <canvas id="old_result" style=""></canvas>
+            </td>
+            <td>
+                <canvas id="new_result"></canvas>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <h3>Diff:</h3>
+    <h4>Newly added scenarios: {{ diff.newly_added_tests|length }}</h4>
+    <ul>
+        {% for test in diff.newly_added_tests -%}
+        <li>{{ test.scenario_name }}</li>
+        {% endfor -%}
+    </ul>
+
+    <h4>Newly Removed Scenarios: {{ diff.newly_removed_tests|length }}</h4>
+    <ul>
+        {% for test in diff.newly_removed_tests -%}
+        <li>{{ test.scenario_name }}</li>
+        {% endfor -%}
+    </ul>
+{% for status, tests in diff.tests_with_diff_status.items() -%}
+    <h4>Newly {{ status.name }}ed Scenarios: {{ tests|length }}</h4>
+    <ul>
+        {% for test in tests -%}
+            <li>{{ test.scenario_name }}</li>
+        {% endfor -%}
+    </ul>
+{% endfor -%}
+
+
+    <script type="text/javascript">
+var xValues = [
+{% for status, tests in diff.old_tests_by_status.items() -%}
+{% if tests|length > 0 -%}
+"{{ status.name }}",
+{% endif -%}
+{% endfor -%}
+];
+var yValues = [
+{% for status, tests in diff.old_tests_by_status.items() -%}
+{% if tests|length > 0 -%}
+"{{ tests|length }}",
+{% endif -%}
+{% endfor -%}
+];
+
+new Chart("old_result", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: color => {
+                        var r = Math.floor(Math.random() * 255);
+                        var g = Math.floor(Math.random() * 255);
+                        var b = Math.floor(Math.random() * 255);
+                        return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+                    },
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Old results: {{ diff.old_result.get_test_count() }}"
+    }
+  }
+});
+
+var xValues = [
+{% for status, tests in diff.new_tests_by_status.items() -%}
+{% if tests|length > 0 -%}
+"{{ status.name }}",
+{% endif -%}
+{% endfor -%}
+];
+var yValues = [
+{% for status, tests in diff.new_tests_by_status.items() -%}
+{% if tests|length > 0 -%}
+"{{ tests|length }}",
+{% endif -%}
+{% endfor -%}
+];
+
+new Chart("new_result", {
+  type: "pie",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: color => {
+                        var r = Math.floor(Math.random() * 255);
+                        var g = Math.floor(Math.random() * 255);
+                        var b = Math.floor(Math.random() * 255);
+                        return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+                    },
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "New results: {{ diff.new_result.get_test_count() }}"
+    }
+  }
+});
+    </script>
+</body>
+</html>
+"""
+        j2_template = Template(template)
+        return j2_template.render({"diff": self._diff})
+
