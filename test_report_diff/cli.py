@@ -2,7 +2,7 @@
 import sys
 import click
 
-from .formatters.triage_formatter import TriageFormatter
+from .formatters.jinja_formatter import JinjiaFormatter
 from .models.suite_result import TestSuiteResult
 from .processors.cuke_json import CucumberJsonProcessor
 from .models.diff import TestResultDiff
@@ -18,7 +18,7 @@ def main(old_report_path: str, new_report_path: str):
     diff: TestResultDiff = TestResultDiff(orig_results, new_results)
     diff.calculate_diff()
 
-    click.echo(TriageFormatter(diff).format())
+    click.echo(JinjiaFormatter(diff).format())
 
     return 0
 
