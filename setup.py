@@ -21,7 +21,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Topic :: Software Development :: Quality Assurance',
+        'Topic :: Utilities',
         'Environment :: Console',
+        'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
@@ -43,7 +45,7 @@ setup(
     packages=find_packages(include=['test_report_diff', 'test_report_diff.*']),
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/newpage-solutions-inc/test_report_diff',
+    url='https://github.com/newpage-solutions-inc/test-report-diff',
     version='0.1.0',
     zip_safe=False,
 )
