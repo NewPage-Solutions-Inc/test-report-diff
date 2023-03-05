@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/newpage-solutions-inc/test_report_diff
+    $ git clone git://github.com/newpage-solutions-inc/test-report-diff
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl -OJL https://github.com/newpage-solutions-inc/test_report_diff/tarball/master
+    $ curl -OJL https://github.com/newpage-solutions-inc/test-report-diff/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/newpage-solutions-inc/test_report_diff
-.. _tarball: https://github.com/newpage-solutions-inc/test_report_diff/tarball/master
+.. _Github repo: https://github.com/newpage-solutions-inc/test-report-diff
+.. _tarball: https://github.com/newpage-solutions-inc/test-report-diff/tarball/master
